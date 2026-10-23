@@ -32,11 +32,11 @@ Android-клиент: **[TUNA VPN](https://github.com/lesovoi53/tuna-vpn)**. Э�
 ```bash
 sudo apt-get update
 sudo apt-get install -y python3 ca-certificates curl iptables dnsutils qrencode
-curl -fL -o tuna-dns-tunnel-0.1.0-rc2.tar.gz https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0-rc2/tuna-dns-tunnel-0.1.0-rc2.tar.gz
-curl -fL -o SHA256SUMS https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0-rc2/SHA256SUMS
+curl -fL -o tuna-dns-tunnel-0.1.0.tar.gz https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0/tuna-dns-tunnel-0.1.0.tar.gz
+curl -fL -o SHA256SUMS https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0/SHA256SUMS
 sha256sum -c SHA256SUMS
-tar -xzf tuna-dns-tunnel-0.1.0-rc2.tar.gz
-cd tuna-dns-tunnel-0.1.0-rc2
+tar -xzf tuna-dns-tunnel-0.1.0.tar.gz
+cd tuna-dns-tunnel-0.1.0
 sudo bash install.sh
 ```
 

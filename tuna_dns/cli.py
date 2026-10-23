@@ -11,7 +11,7 @@ import sys
 
 from . import config, exports, profiles, diagnostics
 
-VERSION = '0.1.0-rc2'
+VERSION = '0.1.0'
 SOURCE = Path(__file__).resolve().parents[1]
 CONFIG = Path('/etc/tuna-dns-tunnel/server_config.toml')
 PRESETS = {1: 'Жёсткая цензура', 2: 'Стандартный', 3: 'Мобильный / скоростной'}

@@ -18,7 +18,7 @@ def main():
     core = args.core.read_bytes()
     if hashlib.sha256(core).hexdigest() != ASSET_SHA256:
         raise SystemExit('Core SHA256 mismatch')
-    name = 'tuna-dns-tunnel-0.1.0-rc2'
+    name = 'tuna-dns-tunnel-0.1.0'
     output = ROOT / 'dist'
     output.mkdir(exist_ok=True)
     target = output / (name + '.tar.gz')
