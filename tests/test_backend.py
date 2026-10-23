@@ -268,11 +268,19 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(self.files(), {})
 
     def test_platform_rejected_before_changes(self):
-        (self.root / 'etc/os-release').write_text('ID=ubuntu\nVERSION_ID="22.04"\n')
-        with self.assertRaisesRegex(backend.BackendError, 'Поддерживаются'):
-            self.install()
-        self.assertEqual(self.runner.calls, [])
-        self.assertFalse((self.root / 'run').exists())
+        for distro, version in [('ubuntu', '22.04'), ('ubuntu', '24.04'), ('ubuntu', '26.04'), ('debian', '11'), ('debian', '14')]:
+            with self.subTest(distro=distro, version=version):
+                (self.root / 'etc/os-release').write_text(f'ID={distro}\nVERSION_ID="{version}"\n')
+                with self.assertRaisesRegex(backend.BackendError, 'Поддерживаются'):
+                    self.install()
+                self.assertEqual(self.runner.calls, [])
+                self.assertFalse((self.root / 'run').exists())
+
+    def test_debian_supported_versions_pass_preflight(self):
+        for version in ('12', '13'):
+            with self.subTest(version=version):
+                (self.root / 'etc/os-release').write_text(f'ID=debian\nVERSION_ID="{version}"\n')
+                self.manager._preflight()
 
     def test_foreign_owned_path_not_adopted(self):
         path = self.manager.path(backend.ETC)

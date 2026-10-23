@@ -183,7 +183,7 @@ class Manager:
                 raise BackendError('Нужна работающая systemd.')
         release_path = self.path('/etc/os-release')
         if release_path.is_symlink():
-            # Debian/Ubuntu use this standard read-only symlink. Installation
+            # Debian uses this standard read-only symlink. Installation
             # destinations still reject all symbolic links.
             if release_path.resolve() != self.path('/usr/lib/os-release').resolve():
                 raise BackendError('Неожиданная ссылка /etc/os-release.')
@@ -196,8 +196,8 @@ class Manager:
                 key, value = line.split('=', 1)
                 tokens = shlex.split(value)
                 values[key] = tokens[0] if len(tokens) == 1 else ''
-        if values.get('VERSION_ID') not in {'debian': ('12', '13'), 'ubuntu': ('24.04', '26.04')}.get(values.get('ID'), ()):
-            raise BackendError('Поддерживаются Debian 12/13 и Ubuntu 24.04/26.04 LTS.')
+        if values.get('ID') != 'debian' or values.get('VERSION_ID') not in ('12', '13'):
+            raise BackendError('Поддерживаются только Debian 12 и Debian 13.')
         self._check_owned()
         if self.live:
             for name in ('systemctl', 'python3'):
