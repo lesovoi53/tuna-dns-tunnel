@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+base=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+if [ -d "$base/tuna_dns" ]; then
+    export PYTHONPATH="$base"
+else
+    export PYTHONPATH=/usr/local/share/tuna-dns-tunnel
+fi
+exec python3 -m tuna_dns.cli "$@"
