@@ -13,11 +13,11 @@
 ```bash
 sudo apt-get update
 sudo apt-get install -y python3 ca-certificates curl iptables dnsutils qrencode
-curl -fL -o tuna-dns-tunnel-0.1.0-rc1.tar.gz https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0-rc1/tuna-dns-tunnel-0.1.0-rc1.tar.gz
-curl -fL -o SHA256SUMS https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0-rc1/SHA256SUMS
+curl -fL -o tuna-dns-tunnel-0.1.0-rc2.tar.gz https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0-rc2/tuna-dns-tunnel-0.1.0-rc2.tar.gz
+curl -fL -o SHA256SUMS https://github.com/lesovoi53/tuna-dns-tunnel/releases/download/v0.1.0-rc2/SHA256SUMS
 sha256sum -c SHA256SUMS
-tar -xzf tuna-dns-tunnel-0.1.0-rc1.tar.gz
-cd tuna-dns-tunnel-0.1.0-rc1
+tar -xzf tuna-dns-tunnel-0.1.0-rc2.tar.gz
+cd tuna-dns-tunnel-0.1.0-rc2
 sudo bash install.sh
 ```
 
@@ -45,7 +45,7 @@ TUNA DNS Tunnel
 
 - `stormdns://`: отдельная ссылка для каждой зоны.
 - `tuna://`: одна ссылка со всеми зонами этого сервера.
-- Выбор основного домена меняет порядок зон; удаление последнего домена запрещено.
+- Выбор основного домена меняет порядок зон; в черновике можно удалить все домены и добавить новые. Сохранение требует хотя бы одного домена; ошибка ввода не сбрасывает черновик.
 - Ссылки содержат ключ доступа. Пароль внешнего SOCKS5 в ссылки не включается.
 
 Параметры экспортируемых профилей соответствуют X-Manager Lite v2026.10.23.2. Общие значения: `resolver_balancing_strategy=5`, сжатие upload/download `2` (LZ4), `rx_tx_workers=16`, `tunnel_process_workers=0` (автоматически), batch=8, окно ARQ=600, максимальный RTO=5 секунд.

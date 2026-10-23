@@ -11,7 +11,7 @@ import sys
 
 from . import config, exports, profiles, diagnostics
 
-VERSION = '0.1.0-rc1'
+VERSION = '0.1.0-rc2'
 SOURCE = Path(__file__).resolve().parents[1]
 CONFIG = Path('/etc/tuna-dns-tunnel/server_config.toml')
 PRESETS = {1: 'Жёсткая цензура', 2: 'Стандартный', 3: 'Мобильный / скоростной'}
@@ -128,33 +128,36 @@ def domains_editor(settings):
         for i, domain in enumerate(draft['domains'], 1):
             print(f'  {i}. {domain}' + (' · Основной' if i == 1 else ''))
         print('[1] Добавить  [2] Удалить  [3] Основной  [4] DNS-записи  [5] Проверить DNS\n[S] Сохранить  [0] Отменить')
-        choice = ask('Выбор').lower()
-        if choice == '0':
-            return None
-        if choice == 's':
-            return config.validate(draft)
-        if choice == '1':
-            values = draft['domains'] + [ask('Домен')]
-            config.validate_domains(values)
-            draft['domains'] = values
-        elif choice in ('2', '3'):
-            index = int(ask('Номер домена')) - 1
-            if not 0 <= index < len(draft['domains']):
-                raise ValueError('Нет такого номера домена.')
-            if choice == '2' and len(draft['domains']) == 1:
-                raise ValueError('Последний домен удалить нельзя.')
-            domain = draft['domains'].pop(index)
-            if choice == '3':
-                draft['domains'].insert(0, domain)
-        elif choice == '4':
-            ns = ask('DNS-имя вашего NS-сервера', 'ns1.example.org')
-            config.validate_domains([ns])
-            print(f'{ns}  A  <публичный IPv4 этого сервера>')
-            for domain in draft['domains']:
-                print(f'{domain}  NS  {ns}')
-            print('Создайте записи у DNS-провайдера без HTTP-проксирования. Делегирование DNS использует порт 53.')
-        elif choice == '5':
-            check_dns(draft['domains'])
+        try:
+            choice = ask('Выбор').lower()
+            if choice == '0':
+                return None
+            if choice == 's':
+                if not draft['domains']:
+                    raise ValueError('Добавьте хотя бы один домен перед сохранением. Черновик сохранён в этом меню.')
+                return config.validate(draft)
+            if choice == '1':
+                values = draft['domains'] + [ask('Домен')]
+                config.validate_domains(values)
+                draft['domains'] = values
+            elif choice in ('2', '3'):
+                index = int(ask('Номер домена')) - 1
+                if not 0 <= index < len(draft['domains']):
+                    raise ValueError('Нет такого номера домена.')
+                domain = draft['domains'].pop(index)
+                if choice == '3':
+                    draft['domains'].insert(0, domain)
+            elif choice == '4':
+                ns = ask('DNS-имя вашего NS-сервера', 'ns1.example.org')
+                config.validate_domains([ns])
+                print(f'{ns}  A  <публичный IPv4 этого сервера>')
+                for domain in draft['domains']:
+                    print(f'{domain}  NS  {ns}')
+                print('Создайте записи у DNS-провайдера без HTTP-проксирования. Делегирование DNS использует порт 53.')
+            elif choice == '5':
+                check_dns(draft['domains'])
+        except (ValueError, RuntimeError, OSError, subprocess.SubprocessError) as error:
+            print('Ошибка:', error)
 
 
 def check_dns(domains):

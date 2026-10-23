@@ -36,3 +36,16 @@ class CliTests(unittest.TestCase):
     def test_preview_does_not_construct_backend(self):
         with patch('tuna_dns.backend.Manager', side_effect=AssertionError('Host access')), contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(cli.main(['--preview']), 0)
+
+    def test_delete_all_then_replace_domains(self):
+        self.settings['domains'] = ['d.tuna.invalid', 'd1.tuna.invalid']
+        with patch.object(cli, 'ask', side_effect=['2', '1', '2', '1', 's', '1', 'dns.example.org', 's']), contextlib.redirect_stdout(io.StringIO()):
+            result = cli.domains_editor(self.settings)
+        self.assertEqual(result['domains'], ['dns.example.org'])
+        self.assertEqual(self.settings['domains'], ['d.tuna.invalid', 'd1.tuna.invalid'])
+
+    def test_invalid_input_keeps_domain_draft(self):
+        self.settings['domains'] = ['d.example.org', 'd1.example.org']
+        with patch.object(cli, 'ask', side_effect=['2', '1', '1', '', '2', 'oops', '2', '99', 's']), contextlib.redirect_stdout(io.StringIO()):
+            result = cli.domains_editor(self.settings)
+        self.assertEqual(result['domains'], ['d1.example.org'])
