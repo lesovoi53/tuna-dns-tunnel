@@ -1,0 +1,23 @@
+# TUNA Subscription Server Configuration
+# Размещение рабочего файла конфигурации: /etc/tuna-subscriptions/config.toml
+
+[server]
+# Локальный адрес привязки (доступ разрешен только с localhost)
+bind_address = "127.0.0.1"
+port = 22217
+max_request_body_size = 2097152
+
+[database]
+# Путь к базе данных SQLite
+path = "/var/lib/tuna-subscriptions/subscriptions.db"
+
+[limits]
+# Лимиты длины входных данных
+max_nickname_length = 64
+max_uri_length = 4096
+max_users = 1000
+
+[logging]
+# Логирование (токены и URI маскируются и никогда не пишутся в лог)
+file = "/var/log/tuna-subscriptions/service.log"
+level = "INFO"

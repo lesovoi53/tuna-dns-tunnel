@@ -1,0 +1,29 @@
+[Unit]
+Description=TUNA Subscription Server Daemon
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=tuna-sub
+Group=tuna-sub
+WorkingDirectory=/var/lib/tuna-subscriptions
+ExecStart=/usr/bin/python3 /usr/local/bin/tuna-subscriptions --config /etc/tuna-subscriptions/config.toml
+Restart=on-failure
+RestartSec=5s
+
+# Hardening / Sandboxing
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+ReadWritePaths=/var/lib/tuna-subscriptions /var/log/tuna-subscriptions
+ReadOnlyPaths=/etc/tuna-subscriptions
+
+# Resource Limits
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

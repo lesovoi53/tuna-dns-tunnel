@@ -1,0 +1,92 @@
+{
+  "schema": "tuna.openflux.bundle",
+  "version": 2,
+  "issuer_id": "c1f10903-88f5-467f-94d7-eaeead8eef24",
+  "id": "77777777-1111-4444-8888-999999999999",
+  "revision": 2,
+  "name": "TUNA-OpenFlux-Classic-8",
+  "mode": "classic",
+  "balancer_strategy": "roundRobin",
+  "groups": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "Classic-Group-1",
+      "transport": "mailru",
+      "urls": [
+        "https://mailru.example.com/doc/ch1"
+      ],
+      "codec": "legacy",
+      "encryption_key": "key_hex_11111111"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "Classic-Group-2",
+      "transport": "boards",
+      "urls": [
+        "https://boards.example.com/doc/ch2"
+      ],
+      "codec": "batched",
+      "encryption_key": "key_hex_22222222"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "name": "Classic-Group-3",
+      "transport": "cupsonline",
+      "urls": [
+        "https://cups.online/live-coding/?room=ch3"
+      ],
+      "codec": "legacy",
+      "encryption_key": "key_hex_33333333"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "name": "Classic-Group-4",
+      "transport": "mailru",
+      "urls": [
+        "https://mailru.example.com/doc/ch4"
+      ],
+      "codec": "batched",
+      "encryption_key": "key_hex_44444444"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000005",
+      "name": "Classic-Group-5",
+      "transport": "boards",
+      "urls": [
+        "https://boards.example.com/doc/ch5"
+      ],
+      "codec": "legacy",
+      "encryption_key": "key_hex_55555555"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000006",
+      "name": "Classic-Group-6",
+      "transport": "cupsonline",
+      "urls": [
+        "https://cups.online/live-coding/?room=ch6"
+      ],
+      "codec": "batched",
+      "encryption_key": "key_hex_66666666"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000007",
+      "name": "Classic-Group-7",
+      "transport": "mailru",
+      "urls": [
+        "https://mailru.example.com/doc/ch7"
+      ],
+      "codec": "legacy",
+      "encryption_key": "key_hex_77777777"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000008",
+      "name": "Classic-Group-8",
+      "transport": "boards",
+      "urls": [
+        "https://boards.example.com/doc/ch8"
+      ],
+      "codec": "batched",
+      "encryption_key": "key_hex_88888888"
+    }
+  ]
+}

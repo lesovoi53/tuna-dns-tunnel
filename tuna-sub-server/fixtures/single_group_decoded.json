@@ -1,0 +1,22 @@
+{
+  "schema": "tuna.openflux.bundle",
+  "version": 2,
+  "issuer_id": "c1f10903-88f5-467f-94d7-eaeead8eef24",
+  "id": "e93e2b20-1a74-4b53-b26a-93911c7ffae1",
+  "revision": 1,
+  "name": "TUNA-OpenFlux-Single",
+  "mode": "classic",
+  "balancer_strategy": "roundRobin",
+  "groups": [
+    {
+      "id": "8bfa5716-1763-471a-ba2d-c1240c114ce7",
+      "name": "OF-Group-MailRu",
+      "transport": "mailru",
+      "urls": [
+        "https://cloud.mail.ru/public/Test/doc1"
+      ],
+      "codec": "legacy",
+      "encryption_key": "aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899"
+    }
+  ]
+}

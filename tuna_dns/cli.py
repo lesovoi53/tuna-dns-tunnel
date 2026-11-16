@@ -63,10 +63,11 @@ def header(state):
   [4] Выход в интернет — Direct / SOCKS5
   [5] Параметры экспортируемых профилей
   [6] Имя подключения и порт
+  [7] Пользователи и подписки (TUNA Subscriptions)
 
-  [7] Управление службой
-  [8] Диагностика и журнал
-  [9] Обновление и резервные копии
+  [8] Управление службой
+  [9] Диагностика и журнал
+  [10] Обновление и резервные копии
   [0] Выход''')
 
 
@@ -281,11 +282,14 @@ def menu(manager):
                 draft['listen_host'] = ask('IPv4 прослушивания', settings['listen_host'])
                 draft['port'] = int(ask('UDP-порт', settings['port']))
                 draft = config.validate(draft) if yes('Сохранить и применить') else None
-            elif choice == '7':
+            elif choice in ('7', 'sub'):
+                from . import subscriptions
+                subscriptions.run_subscriptions_tui(manager=manager)
+            elif choice == '8':
                 services(manager)
                 if not manager.status()['installed']:
                     return
-            elif choice == '8':
+            elif choice == '9':
                 print('[1] Проверить выход в интернет  [2] Проверить DNS  [3] Журнал службы')
                 action = ask('Выбор')
                 if action == '1':
@@ -294,7 +298,7 @@ def menu(manager):
                     check_dns(settings['domains'])
                 elif action == '3':
                     journal(settings)
-            elif choice == '9':
+            elif choice in ('10', 'm'):
                 maintenance(manager)
             if draft is not None:
                 manager.apply(draft)
@@ -308,6 +312,8 @@ def main(argv=None):
     parser.add_argument('--version', action='version', version=VERSION)
     parser.add_argument('--preview', action='store_true', help='показать макет без обращения к системе')
     sub = parser.add_subparsers(dest='command')
+    from . import subscriptions
+    subscriptions.register_sub_cli(sub)
     p = sub.add_parser('install')
     p.add_argument('--settings-file', type=Path, help='закрытый JSON с параметрами для автоматической установки')
     p.add_argument('--archive', type=Path)
@@ -347,6 +353,8 @@ def main(argv=None):
             if not state['installed']:
                 raise RuntimeError('DNS-туннель не установлен.')
             print('\n'.join(exports.links(state['settings'], args.preset, args.format, CONFIG)))
+        elif args.command == 'sub':
+            return subscriptions.handle_sub_cli(args, manager=manager)
         else:
             menu(manager)
         return 0
